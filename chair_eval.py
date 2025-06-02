@@ -67,7 +67,7 @@ if not os.path.exists(base_dir):
 
 # Load COCO2014 val dataset
 coco_dataset = COCODataSet(data_path=args.data_path, trans=model_manager.image_processor)
-sampler = RandomSampler(coco_dataset, replacement=False, num_samples=1000)
+sampler = RandomSampler(coco_dataset, replacement=False, num_samples=500)
 coco_loader = torch.utils.data.DataLoader(
     coco_dataset, batch_size=args.batch_size, shuffle=False, sampler=sampler, num_workers=32
 )
