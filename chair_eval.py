@@ -15,6 +15,8 @@ from eval_data_loader import COCODataSet
 from model_manager import ModelManager
 from tqdm import tqdm
 from transformers.generation.logits_process import LogitsProcessorList
+from torch.utils.data import RandomSampler
+
 
 # modify attention
 from modify_attention import llama_head_guide
@@ -65,8 +67,9 @@ if not os.path.exists(base_dir):
 
 # Load COCO2014 val dataset
 coco_dataset = COCODataSet(data_path=args.data_path, trans=model_manager.image_processor)
+sampler = RandomSampler(coco_dataset, replacement=False, num_samples=1000)
 coco_loader = torch.utils.data.DataLoader(
-    coco_dataset, batch_size=args.batch_size, shuffle=False, num_workers=32
+    coco_dataset, batch_size=args.batch_size, shuffle=False, sampler=sampler, num_workers=32
 )
 
 ### set some parameters
